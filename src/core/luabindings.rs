@@ -1,16 +1,20 @@
-use super::Game;
+use std::error::Error;
+
+use super::window::WindowContextBuilder;
+use super::assets::SCRIPTFILES;
 use hlua::Lua;
 
-pub struct LuaBinder<'a> {
-  pub file_location: String,
-  pub game: &'a Game,
-}
+pub fn parse_build_file(file_name: &str, window_builder: &mut WindowContextBuilder) -> Result<(), String> {
+  let mut lua = Lua::new();
 
-impl<'a> LuaBinder<'a> {
-  pub fn new(file_location: &str, game: &'a Game) -> Self {
-    Self {
-      file_location: file_location.to_string(),
-      game,
-    }
-  }
+  let file_contents = SCRIPTFILES.get(file_name).expect("Unable to find build file in binary");
+
+  window_builder.title = lua.get("title");
+  window_builder.width = lua.get("width");
+  window_builder.height = lua.get("height");
+  window_builder.fps_target = lua.get("fps_target");
+
+  lua.execute::<()>(file_contents).unwrap();
+
+  Ok(())
 }
