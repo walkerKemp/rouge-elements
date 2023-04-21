@@ -14,7 +14,7 @@ pub struct Game {
 
 impl Game {
   pub fn new() -> Self {
-    let window_context = WindowContext::new("Alchemy", 1280, 720, 144);
+    let window_context = WindowContext::new();
 
     Self {
       window_context

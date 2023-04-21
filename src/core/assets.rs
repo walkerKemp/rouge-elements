@@ -4,11 +4,11 @@ use std::io::prelude::*;
 use flate2::read::ZlibDecoder;
 use serde_json;
 
-const FILEDATA: &'static [u8] = include_bytes!("../../tmp/buildobj.obj");
+const SCRIPTSDATA: &'static [u8] = include_bytes!("../../tmp/scripts.obj");
 
 lazy_static!{
   pub static ref SCRIPTFILES: HashMap<String, String> = {
-    let mut decoder = ZlibDecoder::new(FILEDATA);
+    let mut decoder = ZlibDecoder::new(SCRIPTSDATA);
     let mut string_buffer = String::new();
     decoder.read_to_string(&mut string_buffer).expect("Unable to uncompress file data");
 
@@ -16,7 +16,7 @@ lazy_static!{
       .expect("Unable to deserialze json object");
 
     let build_file = include_str!("../build_settings.lua");
-    deserialized.insert("build_settings".to_string(), build_file.to_string());
+    deserialized.insert("build_settings.lua".to_string(), build_file.to_string());
 
     deserialized
   };

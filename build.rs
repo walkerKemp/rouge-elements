@@ -4,9 +4,9 @@ use flate2::Compression;
 use flate2::write::ZlibEncoder;
 use serde_json;
 
-fn main() {
-  let entries = fs::read_dir("src/scripts")
-    .expect("src/scripts is not found")
+fn folder_to_binary(load_path: &str, build_path: &str) {
+  let entries = fs::read_dir(&load_path)
+    .expect(format!("{} is not found", &load_path).as_str())
     .map(|res| res.map(|e| e.path()))
     .collect::<Result<Vec<_>, io::Error>>()
     .expect("Unable to iterate over scripts folder");
@@ -34,6 +34,10 @@ fn main() {
 
   let compressed_bytes = encoder.finish().expect("Unable to encode file data");
   
-  fs::write("tmp/buildobj.obj", compressed_bytes)
-    .expect("Unable to write to tmp/buildobj.obj")
+  fs::write(build_path, compressed_bytes)
+    .expect(format!("Unable to write to {}", build_path).as_str());
+}
+
+fn main() {
+  folder_to_binary("src/scripts", "tmp/scripts.obj");
 }
