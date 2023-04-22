@@ -4,7 +4,6 @@ pub mod game_object;
 pub mod assets;
 pub mod luabindings;
 
-use game_object::GameObject;
 use window::WindowContext;
 use raylib::prelude::*;
 

@@ -1,4 +1,6 @@
 mod core;
+mod cards;
+mod player;
 
 use crate::core::assets::SCRIPTFILES;
 

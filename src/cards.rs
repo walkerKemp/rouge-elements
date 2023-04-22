@@ -1,0 +1,1 @@
+use super::core::assets;

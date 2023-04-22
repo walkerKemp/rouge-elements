@@ -18,6 +18,8 @@ lazy_static!{
     let build_file = include_str!("../build_settings.lua");
     deserialized.insert("build_settings.lua".to_string(), build_file.to_string());
 
+    println!("Generated {} files", deserialized.len());
+
     deserialized
   };
 }

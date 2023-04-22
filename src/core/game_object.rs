@@ -2,7 +2,7 @@ use raylib::prelude::RaylibDrawHandle;
 
 type EntityId = usize;
 
-pub trait GameObject {
+pub trait GameEvent {
   fn on_create(&mut self) {}
   fn on_enter(&mut self);
   fn on_update(&mut self, delta_time: f32);
@@ -10,8 +10,9 @@ pub trait GameObject {
   fn on_exit(&mut self);
 }
 
+
 pub struct ObjectManager {
-  pub objects: Vec<Box<dyn GameObject>>,
+  pub objects: Vec<Box<dyn GameEvent>>,
 }
 
 impl ObjectManager {
@@ -21,7 +22,7 @@ impl ObjectManager {
     }
   }
 
-  pub fn insert_object(&mut self, mut object: Box<dyn GameObject>) -> EntityId {
+  pub fn insert_object(&mut self, mut object: Box<dyn GameEvent>) -> EntityId {
     object.on_create();
     let id = self.objects.len();
     self.objects.push(object);
